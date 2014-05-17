@@ -4,11 +4,16 @@ class HtmlCanvas(id: String) extends Canvas {
   import scala.scalajs.js
   import js.Dynamic._
 
+  def doubleOf(d: ⇒ Dynamic): Double = d match {
+    case n: js.Number ⇒ n.toDouble
+  }
+
   val canvas = global.document.getElementById(id)
   val context = canvas.getContext("2d")
-  val height = canvas.height
-  val width = canvas.width
+  val height = canvas.height.asInstanceOf[js.Number].toDouble
+  val width = canvas.width.asInstanceOf[js.Number].toDouble
 
+  println(s"$width, $height")
   override def clear(): Unit = {
     context.clearRect(0, 0, width, height)
   }

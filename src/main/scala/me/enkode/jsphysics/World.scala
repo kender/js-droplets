@@ -11,6 +11,10 @@ trait World {
       canvas.clear()
     }
 
+    def elide() {
+      scenes = scenes map { _.elide(canvas.width, canvas.height) }
+    }
+
     def update() {
       scenes = scenes map { _.update() }
     }
@@ -30,6 +34,7 @@ trait World {
     }
 
     clear()
+    elide()
     update()
     render()
     wait()
