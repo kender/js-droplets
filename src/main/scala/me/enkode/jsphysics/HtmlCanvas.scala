@@ -19,6 +19,9 @@ class HtmlCanvas(id: String) extends Canvas {
   }
 
   override def render: PartialFunction[Drawable, Unit] = {
+    case Drawable.CompoundDrawable(drawables) ⇒
+      drawables foreach { render }
+
     case Drawable.Circle(c, r, fill, stroke) ⇒
       context.beginPath()
       context.arc(c.x, c.y, r, 0, 2 * global.Math.PI)
@@ -26,6 +29,14 @@ class HtmlCanvas(id: String) extends Canvas {
       context.fill()
       context.lineWidth = stroke.size
       context.strokeStyle = stroke.color
+      context.stroke()
+
+    case Drawable.Line(from, to, stroke) ⇒
+      context.beginPath()
+      context.lineWidth = stroke.size
+      context.strokeStyle = stroke.color
+      context.moveTo(from.x, from.y)
+      context.lineTo(to.x, to.y)
       context.stroke()
   }
 }

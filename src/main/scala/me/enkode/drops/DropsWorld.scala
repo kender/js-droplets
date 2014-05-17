@@ -5,25 +5,27 @@ import scala.scalajs.js
 import js.annotation.JSExport
 import js.Dynamic.global
 
+object DropsWorld {
+  val fillBlack = Drawable.FillStyle("black")
+  val strokeBlack = Drawable.StrokeStyle("black", 2)
+  val gravity = 3.0
 
-@JSExport
-class DropsWorld(canvasId: String) extends World {
-
-  override def frameRate: Int = 50
-
-  override val canvas: Canvas = new HtmlCanvas(canvasId)
-
-  val fillBlack = FillStyle("black")
-  val strokeBlack = StrokeStyle("black", 1)
   case class FallingCircle(
     s: Vector,
     v: Vector = (0, 0),
-    a: Vector = (0, 5),
-    r: Double = 4,
+    a: Vector = (0d, gravity),
+    r: Double = 2,
     t: Long = System.currentTimeMillis())
     extends Sprite {
     override def visible(width: Double, height: Double): Boolean = s.x < width && s.y < height
-    override def draw(): Drawable = Drawable.Circle(s, r, fillBlack, strokeBlack)
+    override def draw(): Drawable = {
+      val head = Drawable.Circle(s, r, fillBlack, strokeBlack)
+      val tail = {
+        val size = v * 2.5
+        Drawable.Line(s, s - Vector(size.x, size.y), strokeBlack)
+      }
+      Drawable.CompoundDrawable(Seq(head, tail))
+    }
 
     override def update(): Sprite = {
       val now = System.currentTimeMillis().toDouble
@@ -39,12 +41,18 @@ class DropsWorld(canvasId: String) extends World {
       )
     }
   }
+}
 
-  val simpleScene = new Scene(
-    sprites = Seq.empty[Sprite]
-  )
+@JSExport
+class DropsWorld(canvasId: String) extends World {
+  import DropsWorld._
 
-  override var scenes = Seq(simpleScene)
+  override def frameRate: Int = 100
+
+  val drops = new Scene(sprites = Seq.empty[Sprite])
+
+  override var scenes = Seq(drops)
+  override val canvas: Canvas = new HtmlCanvas(canvasId)
 
   var running = false
   override def queueNextIn(ms: Long): Unit = {
