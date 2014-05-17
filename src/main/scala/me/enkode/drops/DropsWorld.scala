@@ -8,7 +8,10 @@ import js.Dynamic.global
 object DropsWorld {
   val fillBlack = Drawable.FillStyle("black")
   val strokeBlack = Drawable.StrokeStyle("black", 2)
-  val gravity = 3.0
+
+  val gravity = 1.5
+  val minR = 1.0
+  val maxR = 3.5
 
   case class FallingCircle(
     s: Vector,
@@ -21,18 +24,19 @@ object DropsWorld {
     override def draw(): Drawable = {
       val head = Drawable.Circle(s, r, fillBlack, strokeBlack)
       val tail = {
-        val size = v * 2.5
-        Drawable.Line(s, s - Vector(size.x, size.y), strokeBlack)
+        val size = v * 2.9
+        Drawable.Line(s, s - Vector(size.x, size.y), strokeBlack.copy(size = r))
       }
       Drawable.CompoundDrawable(Seq(head, tail))
     }
 
     override def update(): Sprite = {
       val now = System.currentTimeMillis().toDouble
+      val vScale = .975 + (r/maxR) * .025
       val (s0, v0, a0, t0) = (this.s, this.v, this.a, this.t)
       val Δt = (now - t0) / 1000
       val Δs = (a0 * (Δt * Δt)) / 2
-      val v = (a0 * Δt) + v0
+      val v = ((a0 * Δt) + v0) * vScale
       val s =  s0 + v - Δs
       copy(
         s = s,
@@ -74,8 +78,9 @@ class DropsWorld(canvasId: String) extends World {
   def poke() {
     import scala.util.Random
     val randomX = Random.nextDouble * canvas.width
+    val randomR = minR + Random.nextDouble() * (maxR - minR)
     scenes = Seq(scenes.head.copy(
-      sprites = scenes.head.sprites :+ FallingCircle((randomX, 10.0))
+      sprites = scenes.head.sprites :+ FallingCircle(s = (randomX, 10.0), r = randomR)
     ))
   }
 }

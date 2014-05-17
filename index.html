@@ -19,7 +19,12 @@
 <script type="text/javascript">
     var world = new DropsWorld("drops");
     world.start();
-    setInterval(function() { world.poke(); }, 500);
+
+    var autoInterval = 150;
+    var clutter = 4;
+    setInterval(function() {
+      setTimeout(function() { world.poke(); }, Math.random() * (autoInterval * clutter));
+    }, autoInterval);
 </script>
 
 <div>
