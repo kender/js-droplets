@@ -1,6 +1,6 @@
 package me.enkode.drops
 
-import me.enkode.jsphysics._
+import me.enkode.physics._
 import scala.scalajs.js
 import js.annotation.JSExport
 import js.Dynamic.global

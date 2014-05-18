@@ -1,4 +1,6 @@
-package me.enkode.jsphysics
+package me.enkode.drops
+
+import me.enkode.physics.{Drawable, Canvas}
 
 class HtmlCanvas(id: String) extends Canvas {
   import scala.scalajs.js

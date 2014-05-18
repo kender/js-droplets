@@ -1,4 +1,4 @@
-package me.enkode.jsphysics
+package me.enkode.physics
 
 trait Canvas {
   def width: Double

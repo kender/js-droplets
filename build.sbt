@@ -1,6 +1,6 @@
 scalaVersion := "2.11.0"
 
-name := "js-physics"
+name := "js-droplets"
 
 organization := "me.enkode"
 

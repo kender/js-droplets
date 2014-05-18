@@ -1,4 +1,4 @@
-package me.enkode.jsphysics
+package me.enkode.physics
 
 case class Scene(sprites: Seq[Sprite]) {
   def elide(width: Double, height: Double): Scene = {

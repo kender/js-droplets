@@ -1,6 +1,6 @@
 package me.enkode
 
-package object jsphysics {
+package object physics {
   implicit class DoubleTupleSugar(t: (Double, Double)) {
     def toVector = {
       val (x, y) = t
