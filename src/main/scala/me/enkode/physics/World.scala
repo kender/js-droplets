@@ -29,14 +29,15 @@ trait World {
       }
     }
 
-    def wait() {
-      queueNextIn( (1 / (frameRate.toDouble / 1000)).toLong )
+    def wait(loopTime: Long) {
+      queueNextIn( (1 / (frameRate.toDouble / 1000)).toLong - loopTime)
     }
 
+    def t0 = System.currentTimeMillis()
     clear()
     elide()
     update()
     render()
-    wait()
+    wait(System.currentTimeMillis() - t0)
   }
 }
