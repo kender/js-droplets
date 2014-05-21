@@ -21,8 +21,8 @@ class HtmlCanvas(id: String) extends Canvas {
   }
 
   override def render: PartialFunction[Drawable, Unit] = {
-    case Drawable.CompoundDrawable(drawables) ⇒
-      drawables foreach { render }
+    case drawable: Drawable.CompoundDrawable ⇒
+      drawable.drawables foreach { render }
 
     case Drawable.Circle(c, r, fill, stroke) ⇒
       context.beginPath()

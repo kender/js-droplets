@@ -27,7 +27,7 @@ object DropsWorld {
         val size = v * 2.9
         Drawable.Line(s, s - Vector(size.x, size.y), strokeBlack.copy(size = r))
       }
-      Drawable.CompoundDrawable(Seq(head, tail))
+      Drawable.CompoundDrawable(head, tail)
     }
 
     override def update(): Sprite = {
@@ -36,7 +36,8 @@ object DropsWorld {
       val (s0, v0, a0, t0) = (this.s, this.v, this.a, this.t)
       val Δt = (now - t0) / 1000
       val Δs = (a0 * (Δt * Δt)) / 2
-      val v = ((a0 * Δt) + v0) * vScale
+      val Δv = a0 * Δt
+      val v = (Δv + v0) * vScale
       val s =  s0 + v - Δs
       copy(
         s = s,
