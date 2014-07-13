@@ -2,7 +2,7 @@ package me.enkode.drops
 
 import me.enkode.physics._
 import scala.scalajs.js
-import js.annotation.JSExport
+import scala.scalajs.js.annotation.{JSExportDescendentObjects, JSExport}
 import js.Dynamic.global
 
 object DropsWorld {
@@ -21,11 +21,15 @@ object DropsWorld {
     t: Long = System.currentTimeMillis())
     extends Sprite {
     override def visible(width: Double, height: Double): Boolean = s.x < width && s.y < height
+
     override def draw(): Drawable = {
-      val head = Drawable.Circle(s, r, fillBlack, strokeBlack)
+      val head = {
+        Drawable.Circle(s, r, fillBlack, strokeBlack)
+      }
+
       val tail = {
-        val size = v * 2.9
-        Drawable.Line(s, s - Vector(size.x, size.y), strokeBlack.copy(size = r))
+        val length = v * 2.9
+        Drawable.Line(s, s - Vector(length.x, length.y), strokeBlack.copy(size = r))
       }
       Drawable.CompoundDrawable(head, tail)
     }
@@ -76,12 +80,20 @@ class DropsWorld(canvasId: String) extends World {
   }
 
   @JSExport
-  def poke() {
+  def createDrop() {
     import scala.util.Random
     val randomX = Random.nextDouble * canvas.width
     val randomR = minR + Random.nextDouble() * (maxR - minR)
     scenes = Seq(scenes.head.copy(
       sprites = scenes.head.sprites :+ FallingCircle(s = (randomX, 10.0), r = randomR)
     ))
+  }
+
+  @JSExport
+  def startRaining(interval: Double, clutter: Double) {
+    global.window.setInterval(() ⇒ {
+      val delay =  scala.util.Random.nextDouble() * interval * clutter
+      global.window.setTimeout(createDrop _, delay)
+    }, interval)
   }
 }

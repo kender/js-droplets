@@ -6,10 +6,6 @@ class HtmlCanvas(id: String) extends Canvas {
   import scala.scalajs.js
   import js.Dynamic._
 
-  def doubleOf(d: ⇒ Dynamic): Double = d match {
-    case n: js.Number ⇒ n.toDouble
-  }
-
   val canvas = global.document.getElementById(id)
   val context = canvas.getContext("2d")
   val height = canvas.height.asInstanceOf[js.Number].toDouble

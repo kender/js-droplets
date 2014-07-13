@@ -7,11 +7,10 @@
 <body>
 
 <div id="canvas">
+	<!-- draw the drops world here -->
 </div>
 
-<script type="text/javascript" src="./target/scala-2.11/js-droplets-extdeps.js"></script>
-<script type="text/javascript" src="./target/scala-2.11/js-droplets-intdeps.js"></script>
-<script type="text/javascript" src="./target/scala-2.11/js-droplets.js"></script>
+<script type="text/javascript" src="./target/scala-2.11/js-droplets-fastopt.js"></script>
 
 <canvas id="drops" height="600" width="800" >
 </canvas>
@@ -19,18 +18,13 @@
 <script type="text/javascript">
     var world = new DropsWorld("drops");
     world.start();
-
-    var autoInterval = 150;
-    var clutter = 4;
-    setInterval(function() {
-      setTimeout(function() { world.poke(); }, Math.random() * (autoInterval * clutter));
-    }, autoInterval);
+    world.startRaining(150, 4);
 </script>
 
 <div>
 	<button onclick="javascript:world.start()">START!</button>
 	<button onclick="javascript:world.stop()">STOP!</button>
-	<button onclick="javascript:world.poke()">POKE!</button>
+	<button onclick="javascript:world.createDrop()">DRIP!</button>
 </div>
 <hr/>
 </body>

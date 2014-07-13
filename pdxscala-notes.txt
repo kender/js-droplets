@@ -1,0 +1,14 @@
+- demo in browser
+
+- http://www.scala-js.org/
+
+- build walk through
+-- fastOptJS vs fullOptJS
+-- build size and content
+
+- code walk through
+
+- best practices
+-- keep scala-js projects separate from 'normal' projects
+-- integration?
+--- webjars?
