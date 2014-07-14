@@ -5,6 +5,6 @@ http://kender.github.io/drops
 ### Build & Run Locally ####
 
 ```
-sbt packageJS
+sbt fastOptJS
 open index.html
 ```
